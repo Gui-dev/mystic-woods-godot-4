@@ -13,6 +13,7 @@ var _is_attacking: bool = false
 
 
 func _ready() -> void:
+  _animation_tree.active = true
   _state_machine = _animation_tree["parameters/playback"]
 
 
@@ -62,3 +63,8 @@ func _on_animation_tree_animation_finished(anim_name: StringName):
     if anim_name.contains("attack"):
       set_physics_process(true)
       _is_attacking = false
+
+
+func _on_attack_area_body_entered(body: Enemy) -> void:
+  if body.is_in_group("enemy"):
+    body.update_health(randi_range(1, 5))
